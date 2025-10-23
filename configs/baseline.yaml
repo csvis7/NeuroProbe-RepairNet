@@ -3,11 +3,13 @@ model: "resnet18"
 dataset: "CIFAR10"
 seed: 42
 device: "cuda"
-epochs: 5
-batch_size: 128
-lr: 0.001
-optimizer: "adam"
-weight_decay: 0.0001
+training:
+  epochs: 5
+  batch_size: 128
+  lr: 0.001
+  optimizer: "adam"
+  weight_decay: 0.0001
+
 save_dir: "experiments/baseline"
 
 wandb:
