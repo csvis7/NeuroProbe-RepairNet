@@ -19,4 +19,9 @@ Focus: automatically detect issues like exploding gradients, batch norm drift, a
 
 ---
 
-## 📂 Repo Structure
+## 🧪 Phase 0: Baseline (Completed)
+- Implemented reproducible ResNet-18 → CIFAR-10 pipeline in PyTorch
+- Includes config system, experiment logging (Weights & Biases), checkpointing
+- Achieved 57 % validation accuracy (5 epochs) — reproducible baseline
+- Run it on Colab: [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)]([https://colab.research.google.com/github/<yourusername>/NeuroProbe-RepairNet/blob/main/notebooks/run_colab.ipynb](https://colab.research.google.com/drive/1WFEbkkCb_WbEyctTdtZIsgbtgLccpMIB?usp=sharing))
+
