@@ -10,7 +10,7 @@ training:
   optimizer: "adam"
   weight_decay: 0.0001
 
-save_dir: "experiments/baseline"
+experiment_dir: "experiments/baseline"
 
 wandb:
   project: "neuroprobe-baseline"
