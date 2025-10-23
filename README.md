@@ -26,6 +26,4 @@ Focus: automatically detect issues like exploding gradients, batch norm drift, a
 - Achieved 57 % validation accuracy (5 epochs) — reproducible baseline
 - Run it on Colab:
 - [see the struture "Resnet_baseline.ipynb"](https://colab.research.google.com/github/csvis7/NeuroProbe-RepairNet/blob/main/Resnet_baseline.ipynb)
-
- 
-
+<!-- this is nothing  -->
