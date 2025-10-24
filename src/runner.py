@@ -7,10 +7,14 @@ import torch.optim as optim
 import wandb
 from pathlib import Path
 
+# --- imports ---
 from data.loader import get_dataloaders
 from models.resnet import build_resnet18
+from models.alexnet import build_alexnet
+from models.vgg import build_vgg
 from train.train_loop import train_one_epoch, evaluate
 from utils.helpers import save_checkpoint
+
 
 def main(config):
     print("✅ Starting training with config:")
@@ -21,11 +25,33 @@ def main(config):
     device = config["device"]
     train_cfg = config["training"]
 
+    # --- dataset ---
     trainloader, testloader = get_dataloaders(batch_size=train_cfg["batch_size"])
-    model = build_resnet18(num_classes=10).to(device)
-    criterion = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(model.parameters(), lr=train_cfg["lr"], weight_decay=train_cfg["weight_decay"])
 
+    # --- model selection ---
+    model_name = config["model"].lower()
+    if model_name in ["resnet", "resnet18"]:
+        model = build_resnet18(num_classes=10)
+    elif model_name == "alexnet":
+        model = build_alexnet(num_classes=10, dropout=train_cfg.get("dropout", 0.5))
+    elif model_name == "vgg":
+        model = build_vgg(num_classes=10, dropout=train_cfg.get("dropout", 0.5))
+    else:
+        raise ValueError(f"Unknown model: {config['model']}")
+
+    model = model.to(device)
+
+    # --- loss & optimizer ---
+    criterion = nn.CrossEntropyLoss()
+
+    if train_cfg["optimizer"].lower() == "adam":
+        optimizer = optim.Adam(model.parameters(), lr=train_cfg["lr"], weight_decay=train_cfg["weight_decay"])
+    elif train_cfg["optimizer"].lower() == "sgd":
+        optimizer = optim.SGD(model.parameters(), lr=train_cfg["lr"], momentum=0.9, weight_decay=train_cfg["weight_decay"])
+    else:
+        raise ValueError(f"Unsupported optimizer: {train_cfg['optimizer']}")
+
+    # --- training loop ---
     best_acc = 0
     for epoch in range(1, train_cfg["epochs"] + 1):
         train_acc, train_loss = train_one_epoch(model, trainloader, optimizer, criterion, device)
@@ -47,6 +73,7 @@ def main(config):
 
     print(f"✅ Training complete. Best Val Acc: {best_acc:.2f}%")
     wandb.finish()
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

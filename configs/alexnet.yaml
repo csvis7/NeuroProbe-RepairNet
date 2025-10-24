@@ -1,0 +1,18 @@
+project: "phase1-alexnet"
+model: "alexnet"
+dataset: "CIFAR10"
+device: "cuda"
+
+training:
+  epochs: 10
+  batch_size: 128
+  lr: 0.001
+  optimizer: "sgd"
+  weight_decay: 0.0005
+  dropout: 0.5
+
+experiment_dir: "experiments/alexnet"
+
+wandb:
+  project: "phase1-alexnet"
+  run_name: "alexnet-cifar10"
